@@ -3,3 +3,5 @@
 
 ### CODE CLIMATE
 [![Maintainability](https://qlty.sh/gh/Denisof/projects/typescript-project-81/maintainability.svg)](https://qlty.sh/gh/Denisof/projects/typescript-project-81)
+
+[![Code Coverage](https://qlty.sh/gh/Denisof/projects/typescript-project-81/coverage.svg)](https://qlty.sh/gh/Denisof/projects/typescript-project-81)
