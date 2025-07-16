@@ -60,20 +60,20 @@ jobs:
       run: npm test -- --run --coverage
 
     - name: Upload coverage to Code Climate
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      uses: qltysh/qlty-action/coverage@v1
+      with:
+        token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+        files: coverage/lcov.info
+      continue-on-error: true
+
+    - name: Display coverage upload status
       run: |
-        if [ -n "$CC_TEST_REPORTER_ID" ]; then
-          echo "📊 Uploading coverage to Code Climate..."
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter after-build --coverage-input-type lcov --exit-code 0
-          rm ./cc-test-reporter
-          echo "✅ Coverage uploaded to Code Climate successfully!"
+        if [ -n "${{ secrets.QLTY_COVERAGE_TOKEN }}" ]; then
+          echo "✅ Coverage upload attempted with QLTY action"
         else
-          echo "⚠️ Code Climate integration skipped - CC_TEST_REPORTER_ID secret not configured"
+          echo "⚠️ Code Climate integration skipped - QLTY_COVERAGE_TOKEN secret not configured"
           echo "ℹ️ To enable Code Climate integration:"
           echo "   1. Sign up at https://codeclimate.com"
-          echo "   2. Add your repository and get the Test Reporter ID"
-          echo "   3. Add CC_TEST_REPORTER_ID secret to your GitHub repository"
+          echo "   2. Add your repository and get the QLTY Coverage Token"
+          echo "   3. Add QLTY_COVERAGE_TOKEN secret to your GitHub repository"
         fi

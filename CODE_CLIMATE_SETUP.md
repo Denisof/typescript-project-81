@@ -9,17 +9,16 @@ This project is configured to work with Code Climate for code quality analysis a
 2. Add your GitHub repository to Code Climate
 3. Go to your repository settings in Code Climate
 4. Navigate to "Repo Settings" > "Test Coverage"
-5. Copy the Test Reporter ID
+5. Copy the QLTY Coverage Token
 
 ### 2. GitHub Secrets Configuration
 Add the following secrets to your GitHub repository:
 
 1. Go to your GitHub repository
 2. Navigate to Settings > Secrets and variables > Actions
-3. Add these repository secrets:
+3. Add this repository secret:
 
-   - `CC_TEST_REPORTER_ID`: Your Code Climate Test Reporter ID
-   - `CODECOV_TOKEN`: (Optional) Your Codecov token if you want dual coverage reporting
+   - `QLTY_COVERAGE_TOKEN`: Your Code Climate Coverage Token (found in Code Climate repository settings)
 
 ### 3. Code Climate Configuration
 The `.codeclimate.yml` file in the repository root configures:
