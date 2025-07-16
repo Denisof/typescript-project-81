@@ -1,92 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import Tag from '../src/tag/Tag'
 
-describe('Tag', () => {
-  describe('Odd tags (self-closing)', () => {
-    it('should render input tag with attributes', () => {
-      const tag = new Tag('input', { type: 'submit', value: 'Save' })
-      expect(tag.toString()).toBe('<input type="submit" value="Save" />')
-    })
-
-    it('should render img tag with src attribute', () => {
-      const tag = new Tag('img', { src: 'path/to/image' })
-      expect(tag.toString()).toBe('<img src="path/to/image" />')
-    })
-
-    it('should render br tag without attributes', () => {
-      const tag = new Tag('br')
-      expect(tag.toString()).toBe('<br  />')
-    })
-  })
-
-  describe('Even tags (with closing tags)', () => {
-    it('should render label tag with text content', () => {
-      const tag = new Tag('label', {}, 'Email')
-      expect(tag.toString()).toBe('<label>Email</label>')
-    })
-
-    it('should render label tag with attributes and content', () => {
-      const tag = new Tag('label', { for: 'email' }, 'Email')
-      expect(tag.toString()).toBe('<label for="email">Email</label>')
-    })
-
-    it('should render div tag without content', () => {
-      const tag = new Tag('div')
-      expect(tag.toString()).toBe('<div></div>')
-    })
-
-    it('should render div tag with content', () => {
-      const tag = new Tag('div', { class: 'container' }, 'Hello World')
-      expect(tag.toString()).toBe('<div class="container">Hello World</div>')
-    })
-
-    it('should render form tag with attributes and content', () => {
-      const tag = new Tag('form', { action: '/submit', method: 'POST' }, 'Form content')
-      expect(tag.toString()).toBe('<form action="/submit" method="POST">Form content</form>')
-    })
-
-    it('should render form tag with attributes but no content', () => {
-      const tag = new Tag('form', { action: '/submit', method: 'POST' })
-      expect(tag.toString()).toBe('<form action="/submit" method="POST"></form>')
-    })
-  })
-
-  describe('Nested tags', () => {
-    it('should render nested tags correctly', () => {
-      const innerTag = new Tag('label', {}, 'Email')
-      const outerTag = new Tag('div', { class: 'form-group' }, innerTag)
-      expect(outerTag.toString()).toBe('<div class="form-group"><label>Email</label></div>')
-    })
-  })
-
-  describe('Error handling', () => {
-    it('should throw error for unknown tag', () => {
-      const unknownTag = new Tag('unknown')
-      expect(() => unknownTag.toString()).toThrow('Unknown tag')
-    })
-
-    it('should throw error for unsupported tag', () => {
-      const unsupportedTag = new Tag('section')
-      expect(() => unsupportedTag.toString()).toThrow('Unknown tag')
-    })
-  })
-
-  describe('Edge cases', () => {
-    it('should handle empty attributes object', () => {
-      const tag = new Tag('input', {})
-      expect(tag.toString()).toBe('<input  />')
-    })
-
-    it('should handle attributes with special characters', () => {
-      const tag = new Tag('input', { 'data-test': 'value-with-dashes', 'id': 'test_id' })
-      expect(tag.toString()).toBe('<input data-test="value-with-dashes" id="test_id" />')
-    })
-
-    it('should handle empty string content for even tags', () => {
-      const tag = new Tag('div', {}, '')
-      expect(tag.toString()).toBe('<div></div>')
-    })
-
+// Additional test cases to improve coverage
+describe('Tag - Additional Coverage Tests', () => {
+  describe('Extended edge cases', () => {
     it('should handle numeric content in even tags', () => {
       const tag = new Tag('div', {}, '123')
       expect(tag.toString()).toBe('<div>123</div>')
@@ -110,7 +27,6 @@ describe('Tag', () => {
 
   describe('Complex nested structures', () => {
     it('should handle deeply nested tags', () => {
-      const input = new Tag('input', { type: 'text', id: 'username' })
       const label = new Tag('label', { for: 'username' }, 'Username:')
       const fieldGroup = new Tag('div', { class: 'field-group' }, label)
       const form = new Tag('form', { action: '/login', method: 'POST' }, fieldGroup)
@@ -122,9 +38,7 @@ describe('Tag', () => {
 
     it('should handle multiple nested RenderInterface objects', () => {
       const input1 = new Tag('input', { type: 'text', name: 'first' })
-      const input2 = new Tag('input', { type: 'text', name: 'second' })
       const wrapper1 = new Tag('div', { class: 'wrapper1' }, input1)
-      const wrapper2 = new Tag('div', { class: 'wrapper2' }, input2)
       const container = new Tag('div', { class: 'container' }, wrapper1)
 
       expect(container.toString()).toBe(
@@ -169,13 +83,13 @@ describe('Tag', () => {
     })
   })
 
-  describe('Attribute edge cases', () => {
+  describe('Attribute variations', () => {
     it('should handle single attribute correctly', () => {
       const tag = new Tag('input', { type: 'text' })
       expect(tag.toString()).toBe('<input type="text" />')
     })
 
-    it('should handle multiple attributes in consistent order', () => {
+    it('should handle multiple attributes', () => {
       const tag = new Tag('input', {
         type: 'text',
         id: 'test-input',
@@ -201,12 +115,12 @@ describe('Tag', () => {
   })
 
   describe('Constructor parameter variations', () => {
-    it('should work with only tag name', () => {
+    it('should work with only tag name for odd tags', () => {
       const tag = new Tag('br')
       expect(tag.toString()).toBe('<br  />')
     })
 
-    it('should work with tag name and attributes only', () => {
+    it('should work with tag name and attributes only for odd tags', () => {
       const tag = new Tag('input', { type: 'submit' })
       expect(tag.toString()).toBe('<input type="submit" />')
     })
@@ -219,6 +133,31 @@ describe('Tag', () => {
     it('should work with empty attributes for even tags', () => {
       const tag = new Tag('div', {}, 'Content only')
       expect(tag.toString()).toBe('<div>Content only</div>')
+    })
+
+    it('should work with only tag name for even tags', () => {
+      const tag = new Tag('div')
+      expect(tag.toString()).toBe('<div></div>')
+    })
+  })
+
+  describe('Content variations for even tags', () => {
+    it('should handle very long content', () => {
+      const longContent = 'This is a very long content string that should be handled correctly by the tag system.'
+      const tag = new Tag('div', {}, longContent)
+      expect(tag.toString()).toBe(`<div>${longContent}</div>`)
+    })
+
+    it('should handle content with HTML entities', () => {
+      const content = 'Content with &lt;special&gt; characters &amp; symbols'
+      const tag = new Tag('div', {}, content)
+      expect(tag.toString()).toBe(`<div>${content}</div>`)
+    })
+
+    it('should handle content with newlines', () => {
+      const content = 'Line 1\nLine 2\nLine 3'
+      const tag = new Tag('div', {}, content)
+      expect(tag.toString()).toBe(`<div>${content}</div>`)
     })
   })
 })
