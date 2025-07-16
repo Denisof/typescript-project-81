@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import Base from '../src/tag/backend/Base'
 
 // Create a test class that extends Base to test protected methods

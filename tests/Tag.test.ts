@@ -110,7 +110,6 @@ describe('Tag', () => {
 
   describe('Complex nested structures', () => {
     it('should handle deeply nested tags', () => {
-      const input = new Tag('input', { type: 'text', id: 'username' })
       const label = new Tag('label', { for: 'username' }, 'Username:')
       const fieldGroup = new Tag('div', { class: 'field-group' }, label)
       const form = new Tag('form', { action: '/login', method: 'POST' }, fieldGroup)
@@ -122,9 +121,7 @@ describe('Tag', () => {
 
     it('should handle multiple nested RenderInterface objects', () => {
       const input1 = new Tag('input', { type: 'text', name: 'first' })
-      const input2 = new Tag('input', { type: 'text', name: 'second' })
       const wrapper1 = new Tag('div', { class: 'wrapper1' }, input1)
-      const wrapper2 = new Tag('div', { class: 'wrapper2' }, input2)
       const container = new Tag('div', { class: 'container' }, wrapper1)
 
       expect(container.toString()).toBe(
